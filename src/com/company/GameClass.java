@@ -4,14 +4,13 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 class GameClass {
 
     private Player p;
 
     private ArrayList<Tile> tiles = new ArrayList<>();
-
     public ArrayList<Tile> getTiles() {
         return tiles;
     }
@@ -21,7 +20,6 @@ class GameClass {
     Scanner scn = new Scanner(System.in);
     GameClass(){
         Scanner scn = new Scanner(System.in);
-
         this.p=new Player();
         for(int i =0;i<20;i++){
             tiles.add(new Tile());
@@ -98,7 +96,7 @@ class GameClass {
         int n2 = getRandomNumber(3,r);
 
         System.out.println("Calculate the result of "+n1+" divided by "+n2);
-        String s = scn.next();
+        String s = scn.nextLine();
         GenericCalculator<Integer,Integer> obj = new GenericCalculator<Integer,Integer>(n1,n2);
         if(s.equals(obj.verify(n1,n2))){
             System.out.println("Correct answer");
@@ -114,7 +112,7 @@ class GameClass {
         String s1 = getRandomString();
         String s2 = getRandomString();
         System.out.println("Calculate the concatenation of strings "+s1+" and "+s2);
-        String s = scn.next();
+        String s = scn.nextLine();
         GenericCalculator<String,String> obj = new GenericCalculator<String,String>(s1,s2);
         if(s.equals(obj.verify(s1,s2))){
             System.out.println("Correct answer");
@@ -131,7 +129,11 @@ class GameClass {
         System.out.println("Game Over");
         System.out.println("Soft toys won by you are: ");
         for(int i =0;i<p.getBucket().size();i++){
-            System.out.print(p.getBucket().get(i).getName()+", ");
+            System.out.print(p.getBucket().get(i).getName());
+            if(i<p.getBucket().size()-1){
+                System.out.print(", ");
+
+            }
         }
     }
 

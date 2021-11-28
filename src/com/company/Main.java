@@ -34,15 +34,16 @@ public class Main {
             }
         }
         GameClass g = new GameClass();
-        System.out.println(g.getP().hop());
+//        System.out.println(g.getP().hop());
 //        System.out.println(g.getTiles().size());
         System.out.println("Game is ready");
         for(int i=0;i<5;i++){
             g.format();
             int r = g.getP().hop();
 
-            if ((r+1)>19){
+            if ((r+1)>20){
                 System.out.println("You are too energetic and zoomed past all the tiles. Muddy Puddle Splash!");
+                System.out.println("You landed on tile "+(r+1));
                 g.getP().setChancesLeft(g.getP().getChancesLeft()-1);
             }
             else if ((r+1)%2==0){
@@ -57,12 +58,39 @@ public class Main {
                 System.out.println("You landed on tile "+(r+1));
                 boolean flag1 = false;
                 System.out.println("Question answer round. Integer or string?");
-                String sp = scn.nextLine();
-                while(!flag){
-                    try{
 
+                while(!flag1){
+                    try{
+                        String sp = scn.nextLine();
                         if (sp.toLowerCase().equals("integer") || sp.toLowerCase().equals("string")){
-                            flag=true;
+                            flag1=true;
+                            if(sp.toLowerCase().equals("integer")){
+                                Boolean a = g.verifyInteger();
+                                if(a){
+                                    g.getP().setBucket(g.getTiles().get(r).getT().clone());
+                                    System.out.println("You won a "+g.getTiles().get(r).getT().getName()+" soft toy");
+                                }
+                                else {
+                                    System.out.println("You did not win any soft toy");
+
+                                }
+
+
+
+                            }
+                            else if (sp.toLowerCase().equals("string")){
+                                Boolean a = g.verifyString();
+                                if(a){
+                                    g.getP().setBucket(g.getTiles().get(r).getT().clone());
+                                    System.out.println("You won a "+g.getTiles().get(r).getT().getName()+" soft toy");
+                                }
+                                else {
+                                    System.out.println("You did not win any soft toy");
+
+                                }
+                            }
+
+                            g.getP().setChancesLeft(g.getP().getChancesLeft()-1);
                         }
                         else {
                             throw new InputMismatchException();
@@ -72,35 +100,7 @@ public class Main {
                         System.out.println("Wrong Input.\nQuestion answer round. Integer or string?");
                     }
                 }
-                if(sp.toLowerCase().equals("integer")){
-                    Boolean a = g.verifyInteger();
-                    if(a){
-                        g.getP().setBucket(g.getTiles().get(r).getT().clone());
-                        System.out.println("You won a "+g.getTiles().get(r).getT().getName()+" soft toy");
-                    }
-                    else {
-                        System.out.println("You did not win any soft toy");
 
-                    }
-
-
-                }
-                else if (sp.toLowerCase().equals("string")){
-                    Boolean a = g.verifyInteger();
-                    if(a){
-                        g.getP().setBucket(g.getTiles().get(r).getT().clone());
-                        System.out.println("You won a "+g.getTiles().get(r).getT().getName()+" soft toy");
-                    }
-                    else {
-                        System.out.println("You did not win any soft toy");
-
-                    }
-
-
-
-                }
-
-                g.getP().setChancesLeft(g.getP().getChancesLeft()-1);
             }
 
         }
