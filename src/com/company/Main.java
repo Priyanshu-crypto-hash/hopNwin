@@ -1,19 +1,14 @@
 package com.company;
 
-import java.math.BigInteger;
-import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
-
     public static void main(String[] args) {
 //        GenericCalculator<String,String> a = new GenericCalculator<String,String>("a","b");
 //        System.out.println( a.verify("Priyanshu","kumar"));
 //        a.printer();
         Scanner scn = new Scanner(System.in);
-        Random ra = new Random();
+//        Random ra = new Random();
 
 //        System.out.println(getRandomNumber(4,ra));
 //        getRandomString();
@@ -26,11 +21,11 @@ public class Main {
                     flag=true;
                 }
                 else {
-                    throw new InputMismatchException();
+                    throw new NoEnterException("Wrong Input.\nHit Enter to initialize the game");
                 }
             }
-            catch(InputMismatchException e){
-                System.out.println("Wrong Input.\nHit Enter to initialize the game");
+            catch(NoEnterException e){
+                System.out.println(e.getMessage());
             }
         }
         GameClass g = new GameClass();
@@ -42,8 +37,13 @@ public class Main {
             int r = g.getP().hop();
 
             if ((r+1)>20){
-                System.out.println("You are too energetic and zoomed past all the tiles. Muddy Puddle Splash!");
-                System.out.println("You landed on tile "+(r+1));
+                try{
+                    throw new OutOfTileCarpetException("You are too energetic and zoomed past all the tiles. Muddy Puddle Splash!");
+                }
+                catch(OutOfTileCarpetException e){
+                    System.out.println(e.getMessage());
+                }
+//                System.out.println("You landed on tile "+(r+1));
                 g.getP().setChancesLeft(g.getP().getChancesLeft()-1);
             }
             else if ((r+1)%2==0){
@@ -74,9 +74,6 @@ public class Main {
                                     System.out.println("You did not win any soft toy");
 
                                 }
-
-
-
                             }
                             else if (sp.toLowerCase().equals("string")){
                                 Boolean a = g.verifyString();
@@ -93,11 +90,11 @@ public class Main {
                             g.getP().setChancesLeft(g.getP().getChancesLeft()-1);
                         }
                         else {
-                            throw new InputMismatchException();
+                            throw new WrongInputException("Wrong Input.\nQuestion answer round. Integer or string?");
                         }
                     }
-                    catch(InputMismatchException e){
-                        System.out.println("Wrong Input.\nQuestion answer round. Integer or string?");
+                    catch(WrongInputException e){
+                        System.out.println(e.getMessage());
                     }
                 }
 

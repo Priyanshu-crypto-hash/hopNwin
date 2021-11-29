@@ -9,7 +9,6 @@ class Player {
     public int getChancesLeft() {
         return chancesLeft;
     }
-
     public void setChancesLeft(int chancesLeft) {
         this.chancesLeft = chancesLeft;
     }
@@ -24,7 +23,7 @@ class Player {
     }
 
     protected int hop(){
-        int rand = ThreadLocalRandom.current().nextInt(0, 21);
+        int rand = ThreadLocalRandom.current().nextInt(0, 25);
         return rand;
     }
 

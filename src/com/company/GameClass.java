@@ -2,6 +2,7 @@ package com.company;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,7 +10,6 @@ import java.util.Scanner;
 class GameClass {
 
     private Player p;
-
     private ArrayList<Tile> tiles = new ArrayList<>();
     public ArrayList<Tile> getTiles() {
         return tiles;
@@ -46,27 +46,57 @@ class GameClass {
         tiles.get(19).getT().setName("Eren Yeager");
     }
     public void format(){
-
-        if (p.getChancesLeft()==5){
+        boolean flag2 = false;
+        while(!flag2){
+            if (p.getChancesLeft()==5){
             System.out.println("Hit Enter for your first hop");
+
         }
         else if (p.getChancesLeft()==4){
             System.out.println("Hit Enter for your second hop");
+
         }
         else if (p.getChancesLeft()==3){
             System.out.println("Hit Enter for your third hop");
+
         }
         else if(p.getChancesLeft()==2){
             System.out.println("Hit Enter for your fourth hop");
+
         }
         else if (p.getChancesLeft()==1){
             System.out.println("Hit Enter for your fifth hop");
+
         }
         else {
             System.out.println("No chances left");
-        }
-        String spcae = scn.nextLine();
 
+        }
+            try{
+                String space = scn.nextLine();
+                if(space.equals("")){
+                    flag2=true;
+                }
+                else {
+                    throw new NoEnterException("Wrong Input.");
+
+                }
+
+            }
+            catch(NoEnterException e){
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public  String getString(int n)
+    {
+        String alphabeticString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(n);
+        for (int i = 0; i < n; i++) {
+            int index = (int)(alphabeticString.length() * Math.random());
+            sb.append(alphabeticString.charAt(index));
+        }
+        return sb.toString();
     }
     public static int getRandomNumber(final int digCount, Random rnd){
         final char[] ch = new char[digCount];
@@ -76,19 +106,7 @@ class GameClass {
         }
         return  Integer.parseInt(new BigInteger(new String(ch)).toString());
     }
-    public static String getRandomString() {
-        int l = 65;
-        int r = 122;
-        int targetStringLength = 4;
-        Random random = new Random();
 
-        String generatedString = random.ints(l, r + 1)
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-
-        return generatedString;
-    }
     public Boolean verifyInteger(){
 
         Random r = new Random();
@@ -96,34 +114,49 @@ class GameClass {
         int n2 = getRandomNumber(3,r);
 
         System.out.println("Calculate the result of "+n1+" divided by "+n2);
-        String s = scn.nextLine();
-        GenericCalculator<Integer,Integer> obj = new GenericCalculator<Integer,Integer>(n1,n2);
-        if(s.equals(obj.verify(n1,n2))){
-            System.out.println("Correct answer");
-            return true;
+
+
+        boolean f = false;
+        while(!f){
+            try{
+                int b= scn.nextInt();
+                String i = scn.nextLine();
+                f=true;
+                GenericCalculator<Integer,Integer> obj = new GenericCalculator<Integer,Integer>(n1,n2);
+                if(b==Integer.parseInt(obj.verify(n1,n2))){
+                    System.out.println("Correct answer");
+                    return true;
+                }
+                else {
+                    System.out.println("Incorrect answer");
+                    System.out.println("The answer is : "+ obj.verify(n1,n2));
+                    return false;
+                }
+            }
+            catch(InputMismatchException e){
+                System.out.println("Only Integers are allowed");
+                System.out.println("Calculate the result of "+n1+" divided by "+n2);
+
+                scn.next();
+            }
         }
-        else {
-            System.out.println("Incorrect answer");
-            System.out.println("The answer is : "+ obj.verify(n1,n2));
-            return false;
-        }
+        return false;
     }
     public Boolean verifyString(){
-        String s1 = getRandomString();
-        String s2 = getRandomString();
+
+        String s1 = getString(4);
+        String s2 = getString(4);
         System.out.println("Calculate the concatenation of strings "+s1+" and "+s2);
         String s = scn.nextLine();
         GenericCalculator<String,String> obj = new GenericCalculator<String,String>(s1,s2);
         if(s.equals(obj.verify(s1,s2))){
             System.out.println("Correct answer");
             return true;
-
         }
         else {
             System.out.println("Incorrect answer");
             return false;
         }
-
     }
     public void endGame(){
         System.out.println("Game Over");
@@ -132,7 +165,6 @@ class GameClass {
             System.out.print(p.getBucket().get(i).getName());
             if(i<p.getBucket().size()-1){
                 System.out.print(", ");
-
             }
         }
     }
